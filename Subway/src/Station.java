@@ -4,7 +4,7 @@ public class Station {
     private final StationType type;
     private final int stopTime;
 
-    // Enum para Station types
+    // Enum para stationTypes
     public enum StationType {
         R('r'), M('m'), C('c'), T('t');
 
@@ -29,7 +29,7 @@ public class Station {
         }
     }
 
-    // Constructor de station que acepta tipos de estacion solo directamente(Station.StationType.M).
+    // Constructor de station que acepta tipos de estación solo directamente(Station.StationType.M).
     public Station(int id, StationType type, String name, int stop) {
         if (stop <= 0) {
             throw new IllegalArgumentException("El tiempo de parada introducido es menor o igual a 0.");
@@ -40,7 +40,7 @@ public class Station {
         this.stopTime = stop;
     }
 
-    // Constructor de station que acepta tipos de estacion como char ('r').
+    // Constructor de station que acepta tipos de estación como char ('r') y lo convierte a stationType
     public Station(int id, char typeLetter, String name, int stop) {
         if (stop <= 0) {
             throw new IllegalArgumentException("El tiempo de parada introducido es menor a 0.");
