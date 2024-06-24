@@ -20,11 +20,31 @@ public class Main {
         Line line2 = new Line(2, "Line2", "Type2", List.of(section3, section4));
 
         // Calculate and print the total length of the lines using the static method
-        System.out.println("Total length of line1 using static method: " + Line.lineLength(line1));
-        System.out.println("Total length of line2 using static method: " + Line.lineLength(line2));
+        System.out.println("Total length of line1 using static method: " + line1.lineLength());
+        System.out.println("Total length of line2 using static method: " + line2.lineLength());
+        System.out.println("Total cost of line1 using static method: " + line1.lineCost());
+        System.out.println("Total cost of line2 using static method: " + line2.lineCost());
 
         // Print the whole line details
         System.out.println("Details of line1: " + line1);
         System.out.println("Details of line2: " + line2);
+
+        //Crear tren
+        Train train = new Train(1 ,"JAVA", 15, 12, null);
+        Pcar.CarType carType = Pcar.CarType.CT;
+        System.out.println("Details of train1: " + train);
+        Pcar carro = new Pcar(122, 12, "JAVA", "JAVA", carType);
+        System.out.println("Details of car1: " + carro);
+
+        try {
+            train.addCar(carro, 0);  // Attempt to add carro at position 2
+            System.out.println("Car added successfully.");
+            System.out.println("Details of train1: " + train);
+        } catch (IllegalArgumentException e) {
+            System.out.println("Failed to add car: " + e.getMessage());
+            System.out.println("Details of train1: " + train);
+
+        }
+
     }
 }

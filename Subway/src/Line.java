@@ -29,17 +29,18 @@ public class Line {
         return sections;
     }
 
-    public static int lineLength(Line line) {
+    //Remover parametros de entrada (solo se puede llamar con objetos de la clase)
+    public int lineLength() {
         int totalLength = 0;
-        for (Section section : line.getSections()) {
+        for (Section section : sections) {
             totalLength += section.getDistance();
         }
         return totalLength;
     }
 
-    public static int lineCost(Line line){
+    public int lineCost(){
         int totalCost = 0;
-        for (Section section : line.getSections()) {
+        for (Section section : sections) {
             totalCost += section.getCost();
         }
         return totalCost;
@@ -52,13 +53,11 @@ public class Line {
                 .append(", name='").append(name).append('\'')
                 .append(", railType='").append(railType).append('\'')
                 .append(", sections=[");
-
-        for (Section section : sections) {
-            sb.append(section.toString()).append(", ");
-        }
-
-        if (!sections.isEmpty()) {
-            sb.setLength(sb.length() - 2); // Remove the trailing comma and space
+        for (int i = 0; i < sections.size(); i++) {
+            sb.append(sections.get(i));
+            if (i < sections.size() - 1) {
+                sb.append(", ");
+            }
         }
 
         sb.append("]}");
