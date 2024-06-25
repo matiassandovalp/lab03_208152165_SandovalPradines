@@ -46,6 +46,7 @@ public class Line {
         return totalCost;
     }
 
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
