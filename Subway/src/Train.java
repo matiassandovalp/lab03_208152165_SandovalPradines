@@ -49,6 +49,12 @@ public class Train {
         return carList;
     }
 
+    public Boolean isTrain(){
+        int flagVar;
+        int flagContinuity;
+        return true;
+    }
+
     public void addCar(Pcar carro, int position) {
         if (carro == null) {
             throw new IllegalArgumentException("El objeto carro es nulo.");
@@ -69,6 +75,19 @@ public class Train {
         }
 
         this.carList.add(position, carro);
+    }
+
+    public void removeCar(int position) {
+        if (position < 0 || position >= carList.size()) {
+            throw new IllegalArgumentException("La posición introducida está fuera de los límites.");
+        }
+
+        Pcar carToRemove = carList.get(position);
+        if (carToRemove.getCarType() == Pcar.CarType.TR) {
+            throw new IllegalArgumentException("No se puede eliminar un carro central.");
+        }
+
+        carList.remove(position);
     }
 
     @Override

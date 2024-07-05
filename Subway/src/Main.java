@@ -51,6 +51,15 @@ public class Main {
         } catch (IllegalArgumentException e) {
             System.out.println("Failed to add car: " + e.getMessage());
         }
+        System.out.println("Details of train: " + train);
+
+        try {
+            train.removeCar(0);  // Attempt to add carro at position 0
+            System.out.println("Car removed successfully.");
+        } catch (IllegalArgumentException e) {
+            System.out.println("Failed to remove car: " + e.getMessage());
+        }
+        System.out.println("Details of train: " + train);
 
         // Create Driver instances
         Driver driver1 = new Driver(1, "John Doe", "JAVA");
