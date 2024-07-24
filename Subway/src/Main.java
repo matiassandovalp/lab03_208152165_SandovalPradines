@@ -71,5 +71,63 @@ public class Main {
 
         // Print out the subway details at the end
         System.out.println(subway);
+
+        // Create some Pcars
+        Pcar terminalCar1 = new Pcar(1, 100, "ModelA", "JAVA", Pcar.CarType.TR);
+        Pcar terminalCar2 = new Pcar(2, 100, "ModelA", "JAVA", Pcar.CarType.TR);
+        Pcar centralCar1 = new Pcar(3, 80, "ModelB", "JAVA", Pcar.CarType.CT);
+        Pcar centralCar2 = new Pcar(4, 80, "ModelB", "JAVA", Pcar.CarType.CT);
+
+        // Create an empty train
+        Train trainTest = new Train(1, "JAVA", 60, 5, null);
+
+        // Test adding cars
+        try {
+            trainTest.addCar(terminalCar1, 0); // Add terminal car at the beginning
+            System.out.println("Added terminal car at the beginning: " + trainTest);
+        } catch (IllegalArgumentException e) {
+            System.out.println("Error adding car: " + e.getMessage());
+        }
+
+        try {
+            trainTest.addCar(terminalCar2, 1); // Add terminal car at the end
+            System.out.println("Added terminal car at the end: " + trainTest);
+        } catch (IllegalArgumentException e) {
+            System.out.println("Error adding car: " + e.getMessage());
+        }
+
+        try {
+            trainTest.addCar(centralCar1, 1); // Add central car in the middle
+            System.out.println("Added central car in the middle: " + trainTest);
+        } catch (IllegalArgumentException e) {
+            System.out.println("Error adding car: " + e.getMessage());
+        }
+
+
+
+        // Test if it's a valid train
+        System.out.println("Is valid train: " + trainTest.isTrain()); // Should be true
+
+        // Test removing a car
+        try {
+            trainTest.removeCar(1); // Remove the central car
+            System.out.println("Train after removing a car: " + trainTest);
+        } catch (IllegalArgumentException e) {
+            System.out.println("Error removing car: " + e.getMessage());
+        }
+
+        // Test if it's a valid train after removal
+        System.out.println("Is valid train after removal: " + trainTest.isTrain()); // Should be false
+
+        // Add central car again in the middle
+        try {
+            trainTest.addCar(centralCar2, 1);
+            System.out.println("Train after re-adding a central car: " + trainTest);
+        } catch (IllegalArgumentException e) {
+            System.out.println("Error re-adding car: " + e.getMessage());
+        }
+
+        // Test if it's a valid train after re-adding
+        System.out.println("Is valid train after re-adding: " + trainTest.isTrain()); // Should be true
     }
 }

@@ -36,6 +36,13 @@ public class Section {
         return cost;
     }
 
+    //Revisa continuidad entre dos secciones mediante las estaciones con las que terminan e inician.
+    public boolean areContinuous(Section sc1, Section sc2) {
+        Station start = sc1.getPoint2();
+        Station end = sc2.getPoint1();
+        return start.equals(end);
+    }
+
     @Override
     public String toString() {
         return "Section{" +

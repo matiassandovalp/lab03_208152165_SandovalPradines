@@ -8,6 +8,7 @@ public class Train {
     private int stationStayTime;
     private List<Pcar> carList;
 
+    //Para crear un tren sin carros para agregarlos posteriormente, carList es ingresado como null
     public Train(int id, String trainMaker, int speed, int stationStayTime, List<Pcar> carList) {
         this.id = id;
         this.trainMaker = trainMaker;
@@ -18,10 +19,9 @@ public class Train {
             throw new IllegalArgumentException("La velocidad introducida menor a 0");
         }
 
-        // Initialize carList as an empty ArrayList if carList is null
         if (carList == null) {
             this.carList = new ArrayList<>();
-        } else {
+        } else {//si for each es el mismo tipo, entonces se asigna la lista, sino error!!
             this.carList = carList;
         }
 
@@ -49,11 +49,24 @@ public class Train {
         return carList;
     }
 
-    public Boolean isTrain(){
-        int flagVar;
-        int flagContinuity;
+    public Boolean isTrain() {
+        int flag;
+        if (carList.isEmpty()) {
+            throw new IllegalArgumentException("El tren ingresado no presenta ningún carro.");
+        }
+
+        if (carList.get(0).getCarType() != Pcar.CarType.TR || carList.get(carList.size() - 1).getCarType() != Pcar.CarType.TR) {
+            throw new IllegalArgumentException("El tren ingresado no inicia o termina con un carro terminal.");
+        }
+
+        for (int i = 1; i < carList.size() - 1; i++) {
+            if (carList.get(i).getCarType() != Pcar.CarType.CT) {
+                throw new IllegalArgumentException("El tren no es consistente: solo los carros centrales pueden estar entre los carros terminales.");
+            }
+        }
         return true;
     }
+
 
     public void addCar(Pcar carro, int position) {
         if (carro == null) {
@@ -71,11 +84,20 @@ public class Train {
         }
 
         if (carro.getCarType() == Pcar.CarType.TR) {
-            throw new IllegalArgumentException("El carro introducido solo puede ser central.");
+            if (position != 0 && position != carList.size()) {
+                throw new IllegalArgumentException("El carro terminal solo puede estar en los extremos.");
+            }
+        } else if (carro.getCarType() == Pcar.CarType.CT) {
+            if (position == 0 || position == carList.size()) {
+                if (!carList.isEmpty()) {
+                    throw new IllegalArgumentException("El carro central no puede estar en los extremos.");
+                }//NT: Esto implica que deben agregarse ambos carros terminales antes de agregar los centrales.
+            }
         }
 
         this.carList.add(position, carro);
     }
+
 
     public void removeCar(int position) {
         if (position < 0 || position >= carList.size()) {
