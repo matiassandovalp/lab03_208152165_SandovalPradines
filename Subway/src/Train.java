@@ -112,6 +112,14 @@ public class Train {
         carList.remove(position);
     }
 
+    public int fetchCapacity(){
+        int totalCapacity = 0;
+        for (Pcar car : carList) {
+            totalCapacity += car.getPassengerCapacity();
+        }
+        return totalCapacity;
+    }
+
     @Override
     public String toString() {
         StringBuilder tr = new StringBuilder();
