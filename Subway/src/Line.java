@@ -42,6 +42,40 @@ public class Line {
         return totalLength;
     }
 
+    public int lineSectionLength(String start, String end) {
+        Section startSection = findSectionByStartStation(start);
+        Section endSection = findSectionByEndStation(end);
+
+        int tipoFlag = 1; // 1 = linea circular, 0 = linea con est. terminal
+
+        for (Section section : sections) {
+            Station p1 = section.getPoint1();
+            Station p2 = section.getPoint2();
+            if (p1.getType() == Station.StationType.T || p2.getType() == Station.StationType.T) {
+                tipoFlag = 0;
+                break;
+            }
+        }
+
+        List<Section> path;
+        if (tipoFlag == 0) {
+            path = pathMaker(startSection, sections, endSection, new ArrayList<>());
+        } else {
+            path = pathMakerCircle(startSection, sections, startSection, new ArrayList<>(), 0);
+        }
+
+        if (path == null) {
+            throw new IllegalArgumentException("No path found between the given stations.");
+        }
+
+        int length = 0;
+        for (Section section : path) {
+            length += section.getDistance();
+        }
+        return length;
+    }
+
+
     public int lineCost(){
         int totalCost = 0;
         for (Section section : sections) {
@@ -49,6 +83,40 @@ public class Line {
         }
         return totalCost;
     }
+
+    public int lineSectionCost(String start, String end) {
+        Section startSection = findSectionByStartStation(start);
+        Section endSection = findSectionByEndStation(end);
+
+        int tipoFlag = 1; // 1 = linea circular, 0 = linea con est. terminal
+
+        for (Section section : sections) {
+            Station p1 = section.getPoint1();
+            Station p2 = section.getPoint2();
+            if (p1.getType() == Station.StationType.T || p2.getType() == Station.StationType.T) {
+                tipoFlag = 0;
+                break;
+            }
+        }
+
+        List<Section> path;
+        if (tipoFlag == 0) {
+            path = pathMaker(startSection, sections, endSection, new ArrayList<>());
+        } else {
+            path = pathMakerCircle(startSection, sections, startSection, new ArrayList<>(), 0);
+        }
+
+        if (path == null) {
+            throw new IllegalArgumentException("No existe un camino entre las estaciones ingresadas.");
+        }
+
+        int cost = 0;
+        for (Section section : path) {
+            cost += section.getCost();
+        }
+        return cost;
+    }
+
 
     public void lineAddSection(Section newSection){
         if (newSection == null) {
@@ -123,6 +191,50 @@ public class Line {
         return false;
     }
 
+    //Método auxiliar para encontrar el camino de secciones en una línea con estaciones terminales.
+    public List<Section> pathMaker(Section actualSection, List<Section> sectionList, Section goalSection, List<Section> path) {
+        if (actualSection.equals(goalSection)) {
+            path.add(actualSection);
+            return path;
+        }
+        if (sectionList == null || sectionList.isEmpty()) {
+            return null;
+        }
+
+        List<Section> remainingSections = new ArrayList<>(sectionList);
+        path.add(actualSection);
+        remainingSections.remove(actualSection);
+
+        for (Section section : remainingSections) {
+            if (actualSection.areContinuous(actualSection, section)) {
+                List<Section> result = pathMaker(section, remainingSections, goalSection, path);
+                if (result != null) {
+                    return result;
+                }
+            }
+        }
+        path.remove(path.size() - 1);//Backtracking si no encuentra camino valido.
+        return null;
+    }
+
+    public Section findSectionByStartStation(String stationName) {
+        for (Section section : sections) {
+            if (section.getPoint1().getName().equalsIgnoreCase(stationName)) {
+                return section;
+            }
+        }
+        throw new IllegalArgumentException("Ninguna sección de la linea empieza por la estación especificada.");
+    }
+
+    public Section findSectionByEndStation(String stationName) {
+        for (Section section : sections) {
+            if (section.getPoint2().getName().equalsIgnoreCase(stationName)) {
+                return section;
+            }
+        }
+        throw new IllegalArgumentException("Ninguna sección de la linea termina por la estación especificada.");
+    }
+
     //como path, pero considera iteraciones realizadas para terminar la funcion
     public boolean pathCircle(Section actualSection, List<Section> sectionList, Section goalSection, int ite) {
         if (actualSection.equals(goalSection) && ite > 0) {
@@ -144,6 +256,34 @@ public class Line {
         }
         return false;
     }
+
+    //Método auxiliar para encontrar el camino de secciones en una linea circular.
+    public List<Section> pathMakerCircle(Section actualSection, List<Section> sectionList, Section goalSection, List<Section> path, int iterations) {
+        if (actualSection.equals(goalSection) && iterations > 0) {
+            path.add(actualSection);
+            return path;
+        }
+        if (sectionList == null || sectionList.isEmpty() || iterations > sectionList.size()) {
+            return null;
+        }
+
+        List<Section> remainingSections = new ArrayList<>(sectionList);
+        path.add(actualSection);
+        remainingSections.remove(actualSection);
+
+        for (Section section : remainingSections) {
+            if (actualSection.areContinuous(actualSection, section)) {
+                List<Section> result = pathMakerCircle(section, remainingSections, goalSection, path, iterations + 1);
+                if (result != null) {
+                    return result;
+                }
+            }
+        }
+        path.remove(path.size() - 1); //Backtracking si no encuentra camino valido.
+        return null;
+    }
+
+
 
 
 
