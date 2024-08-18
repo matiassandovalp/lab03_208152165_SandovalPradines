@@ -129,5 +129,9 @@ public class Main {
 
         // Test if it's a valid train after re-adding
         System.out.println("Is valid train after re-adding: " + trainTest.isTrain()); // Should be true
+        System.out.println("\n\n\n");
+        Menu menu = new Menu();
+        menu.show();
+
     }
 }

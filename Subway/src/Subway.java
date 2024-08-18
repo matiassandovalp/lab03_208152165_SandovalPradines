@@ -8,6 +8,13 @@ public class Subway {
     private List<Line> lineList;
     private List<Driver> driverList;
 
+
+    public Subway() {
+        this.trainList = new ArrayList<>();
+        this.lineList = new ArrayList<>();
+        this.driverList = new ArrayList<>();
+    }
+
     public Subway(int id, String name) {
         this.id = id;
         this.name = name;
