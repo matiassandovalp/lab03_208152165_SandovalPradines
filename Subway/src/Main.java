@@ -3,7 +3,7 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        // Create Subway instance
+        // Crear instancia subway
         Subway subway = new Subway(1, "Main Subway");
 
         // Create Station instances
@@ -135,3 +135,9 @@ public class Main {
 
     }
 }
+/*
+public static void main(String[] args) {
+        Menu menu = new Menu();
+        menu.show();
+    }
+ */

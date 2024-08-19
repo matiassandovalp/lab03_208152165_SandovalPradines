@@ -4,6 +4,9 @@ import java.util.List;
 public class Subway {
     private int id;
     private String name;
+    private List<Station> stationList;//interno
+    private List<Pcar> pcarList; //interno
+    private List<Section> sectionList; //interno
     private List<Train> trainList;
     private List<Line> lineList;
     private List<Driver> driverList;
@@ -13,6 +16,9 @@ public class Subway {
         this.trainList = new ArrayList<>();
         this.lineList = new ArrayList<>();
         this.driverList = new ArrayList<>();
+        this.stationList = new ArrayList<>();//interno
+        this.pcarList = new ArrayList<>();//interno
+        this.sectionList = new ArrayList<>();//interno
     }
 
     public Subway(int id, String name) {
@@ -21,6 +27,7 @@ public class Subway {
         this.trainList = new ArrayList<>();
         this.lineList = new ArrayList<>();
         this.driverList = new ArrayList<>();
+        this.pcarList = new ArrayList<>();
     }
 
     public int getId() {
@@ -29,6 +36,20 @@ public class Subway {
 
     public String getName() {
         return name;
+    }
+
+
+
+    public List<Station> getStationList() {
+        return stationList;
+    }
+
+    public List<Pcar> getPcarList(){
+        return pcarList;
+    }
+
+    public List<Section> getSectionList(){
+        return sectionList;
     }
 
     public List<Train> getTrainList() {
@@ -43,7 +64,29 @@ public class Subway {
         return driverList;
     }
 
-    //Temporal!!
+
+    public void addStation(Station station) {
+        if (station == null) {
+            throw new IllegalArgumentException("El objeto estación es nulo.");
+        }
+        this.stationList.add(station);
+    }
+
+    public void addPcar(Pcar car) {
+        if (car == null) {
+            throw new IllegalArgumentException("El objeto carro es nulo.");
+        }
+        this.pcarList.add(car);
+    }
+
+    public void addSection(Section section) {
+        if (section == null) {
+            throw new IllegalArgumentException("El objeto seccion es nulo.");
+        }
+        this.sectionList.add(section);
+    }
+
+
     public void addTrain(Train train) {
         if (train == null) {
             throw new IllegalArgumentException("El objeto tren es nulo.");
@@ -64,6 +107,8 @@ public class Subway {
         }
         this.driverList.add(driver);
     }
+
+
 
     @Override
     public String toString() {
