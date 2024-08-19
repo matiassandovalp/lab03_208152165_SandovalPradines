@@ -30,6 +30,16 @@ public class Subway {
         this.pcarList = new ArrayList<>();
     }
 
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+
     public int getId() {
         return id;
     }
@@ -37,8 +47,6 @@ public class Subway {
     public String getName() {
         return name;
     }
-
-
 
     public List<Station> getStationList() {
         return stationList;

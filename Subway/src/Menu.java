@@ -23,7 +23,11 @@ public class Menu {
                 System.out.println("4) Manipular Carros");
                 System.out.println("5) Manipular Trenes");
                 System.out.println("6) Manipular Conductores");
-                System.out.println("7) Salir");
+                System.out.println("7) Imprimir metro en su estado actual");
+                System.out.println("8) Manipular metro");
+                System.out.println("9) Salir");
+
+
                 String line = input.nextLine();
 
                 try {
@@ -32,7 +36,7 @@ public class Menu {
                     option = 0;
                 }
 
-                if (option < 1 || option > 7) {
+                if (option < 1 || option > 8) {
                     valid = false;
                     System.out.println("Error en la opción introducida");
                 } else {
@@ -42,16 +46,35 @@ public class Menu {
 
             Submenu m = null;
             switch (option) {
-                case 1 -> m = new StationMenu(subwayAdministrator);
-                case 2 -> m = new SectionMenu(subwayAdministrator);
-                case 3 -> m = new LineMenu(subwayAdministrator);
-                case 4 -> m = new PcarMenu(subwayAdministrator);
-                case 5 -> m = new TrainMenu(subwayAdministrator);
-                case 6 -> m = new DriverMenu(subwayAdministrator);
-                case 7 -> {
+                case 1:
+                    m = new StationMenu(subwayAdministrator);
+                    break;
+                case 2:
+                    m = new SectionMenu(subwayAdministrator);
+                    break;
+                case 3:
+                    m = new LineMenu(subwayAdministrator);
+                    break;
+                case 4:
+                    m = new PcarMenu(subwayAdministrator);
+                    break;
+                case 5:
+                    m = new TrainMenu(subwayAdministrator);
+                    break;
+                case 6:
+                    m = new DriverMenu(subwayAdministrator);
+                    break;
+                case 7:
+                    System.out.println(subwayAdministrator.toString());
+                    break;
+                case 8:
+                    m = new SubwayMenu(subwayAdministrator);
+                    break;
+                case 9:
                     System.out.println("Saliendo...");
                     return;
-                }
+                default:
+                    System.out.println("La elección introducida no es válida, intente nuevamente.");
             }
 
             if (m != null) {
@@ -70,6 +93,7 @@ public class Menu {
 
         public abstract void show();
     }
+
 
     public class LineMenu extends Submenu {
 
@@ -122,6 +146,7 @@ public class Menu {
             }
         }
     }
+
 
     public interface ActionMenu {
         void show();
@@ -176,6 +201,7 @@ public class Menu {
             System.out.println("Se creó la línea");
         }
     }
+
 
     public class AddSectionMenu implements ActionMenu {
 
@@ -251,6 +277,7 @@ public class Menu {
             throw new IllegalArgumentException("Ninguna sección de la línea empieza por la estación especificada.");
         }
     }
+
 
     public class StationMenu extends Submenu {
 
@@ -402,6 +429,7 @@ public class Menu {
 
     }
 
+
     public class PcarMenu extends Submenu {
 
         public PcarMenu(Subway subwayAdministrator) {
@@ -452,6 +480,7 @@ public class Menu {
             }
         }
     }
+
 
     public class CreatePcarMenu implements ActionMenu {
 
@@ -536,6 +565,7 @@ public class Menu {
             System.out.println("Se creó el carro exitosamente.");
         }
     }
+
 
     public class TrainMenu extends Submenu {
 
@@ -975,5 +1005,73 @@ public class Menu {
         }
     }
 
+
+    public class SubwayMenu extends Submenu{
+
+        public SubwayMenu(Subway subwayAdministrator) {
+            super(subwayAdministrator);
+        }
+
+        @Override
+        public void show() {
+            System.out.println("#############################");
+            System.out.println("Menu de metro");
+            boolean valid;
+            int option;
+
+            do {
+                System.out.println("¿Qué desea hacer?");
+                System.out.println("1) Cambiar id del metro");
+                System.out.println("2) Cambiar nombre del metro");
+                String line = input.nextLine();
+
+                try {
+                    option = Integer.parseInt(line);
+                } catch (NumberFormatException e) {
+                    option = 0;
+                }
+
+                if (option < 1 || option > 2) {
+                    valid = false;
+                    System.out.println("Error en la opción introducida");
+                } else {
+                    valid = true;
+                }
+            } while (!valid);
+
+            ActionMenu m = null;
+            switch (option) {
+                case 1:
+                    changeMetroId();
+                    break;
+                case 2:
+                    changeMetroName();
+                    break;
+                default:
+                    System.out.println("Opción no válida.");
+            }
+        }
+
+        private void changeMetroId() {
+            System.out.println("Introduce el nuevo ID del metro:");
+            String line = input.nextLine();
+
+            try {
+                int newId = Integer.parseInt(line);
+                subwayAdministrator.setId(newId);
+                System.out.println("ID del metro actualizado a " + newId);
+            } catch (NumberFormatException e) {
+                System.out.println("ID inválido. Debe ser un número entero.");
+            }
+        }
+
+        private void changeMetroName() {
+            System.out.println("Introduce el nuevo nombre del metro:");
+            String newName = input.nextLine();
+
+            subwayAdministrator.setName(newName); // Assuming you have a setName method in Subway
+            System.out.println("Nombre del metro actualizado a " + newName);
+        }
+    }
 }
 
