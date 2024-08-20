@@ -1,0 +1,7 @@
+1,t,hospital el pino,12
+2,r,lo martinez,10
+3,r,observatorio,12
+4,r,el bosque,6
+5,c,la cisterna,2
+6,r,el parron,45
+7,t,lo ovalle,3

@@ -5,9 +5,16 @@ import java.util.List;
 public class Menu {
 
     private Scanner input = new Scanner(System.in);
-    private Subway subwayAdministrator = new Subway();
+    private Subway subwayAdministrator;
+
+
+    public Menu(Subway subwayAdministrator) {
+        this.subwayAdministrator = subwayAdministrator;
+    }
+
 
     public void show() {
+        System.out.println("#############################");
         System.out.println("Bienvenido al lab3");
         System.out.println("Administración de metro");
         System.out.println("###################################");
@@ -36,7 +43,7 @@ public class Menu {
                     option = 0;
                 }
 
-                if (option < 1 || option > 8) {
+                if (option < 1 || option > 9) {
                     valid = false;
                     System.out.println("Error en la opción introducida");
                 } else {
@@ -111,7 +118,7 @@ public class Menu {
                 System.out.println("¿Qué desea hacer?");
                 System.out.println("1) Crear línea");
                 System.out.println("2) Agregar sección");
-                System.out.println("3) Mostrar líneas");
+                System.out.println("3) Mostrar líneas y volver");
                 String line = input.nextLine();
 
                 try {
@@ -130,15 +137,18 @@ public class Menu {
 
             ActionMenu m = null;
             switch (option) {
-                case 1 -> m = new CreateLineMenu(subwayAdministrator);
-                case 2 -> m = new AddSectionMenu(subwayAdministrator);
-                case 3 -> {
+                case 1 :
+                    m = new CreateLineMenu(subwayAdministrator);
+                    break;
+                case 2 :
+                    m = new AddSectionMenu(subwayAdministrator);
+                    break;
+                case 3 :
                     System.out.println("Líneas actualmente creadas:");
                     for (Line l : subwayAdministrator.getLineList()) {
                         System.out.println(l.toString());
                     }
                     return;
-                }
             }
 
             if (m != null) {
@@ -295,7 +305,7 @@ public class Menu {
             do {
                 System.out.println("¿Qué desea hacer?");
                 System.out.println("1) Crear estación");
-                System.out.println("2) Mostrar estaciones");
+                System.out.println("2) Mostrar estaciones y volver");
                 String line = input.nextLine();
 
                 try {
@@ -312,21 +322,19 @@ public class Menu {
                 }
             } while (!valid);
 
+
             ActionMenu m = null;
             switch (option) {
-                case 1 -> m = new CreateStationMenu(subwayAdministrator);
-                case 2 -> {
+                case 1:
+                    m = new CreateStationMenu(subwayAdministrator);
+                    break;
+                case 2:
                     System.out.println("Estaciones actualmente creadas:");
+                    System.out.println("Debug: Number of stations in the list: " + subwayAdministrator.getStationList().size());
                     for (Station s : subwayAdministrator.getStationList()) {
-                        System.out.println(s.toString());
+                        System.out.println(s);
                     }
-                    return;
-                }
-
-            }
-
-            if (m != null) {
-                m.show();
+                    break;
             }
         }
     }
@@ -363,7 +371,6 @@ public class Menu {
                 return;
             }
 
-
             // Ingresa y valida el tipo de estación
             System.out.print("Ingrese el tipo de estación: ");
             System.out.print("Tipos existentes: 'r' 't' 'c' 'm' ");
@@ -386,7 +393,7 @@ public class Menu {
             }
 
             // Chequea si ya existe una estación con este nombre
-            if (subwayAdministrator.getStationList().stream().anyMatch(station -> station.getName() == stationName)) {
+            if (subwayAdministrator.getStationList().stream().anyMatch(station -> station.getName().equals(stationName))) {
                 System.out.println("Ya existe una estación con el nombre ingresado.");
                 return;
             }
@@ -425,8 +432,6 @@ public class Menu {
             subwayAdministrator.addStation(newStation);
             System.out.println("Se creó la estación exitosamente.");
         }
-
-
     }
 
 
@@ -446,7 +451,7 @@ public class Menu {
             do {
                 System.out.println("¿Qué desea hacer?");
                 System.out.println("1) Crear carro");
-                System.out.println("2) Mostrar carros");
+                System.out.println("2) Mostrar carros y volver");
                 String line = input.nextLine();
 
                 try {
@@ -465,14 +470,15 @@ public class Menu {
 
             ActionMenu m = null;
             switch (option) {
-                case 1 -> m = new CreatePcarMenu(subwayAdministrator);
-                case 2 -> {
+                case 1 :
+                    m = new CreatePcarMenu(subwayAdministrator);
+                    break;
+                case 2 :
                     System.out.println("Carros de pasajero actualmente creados:");
                     for (Pcar pcar : subwayAdministrator.getPcarList()) {
                         System.out.println(pcar.toString());
                     }
                     return;
-                }
             }
 
             if (m != null) {
@@ -584,7 +590,7 @@ public class Menu {
                 System.out.println("¿Qué desea hacer?");
                 System.out.println("1) Crear tren");
                 System.out.println("2) Añadir carros a tren");
-                System.out.println("3) Mostrar trenes");
+                System.out.println("3) Mostrar trenes y volver");
                 String line = input.nextLine();
 
                 try {
@@ -603,15 +609,18 @@ public class Menu {
 
             ActionMenu m = null;
             switch (option) {
-                case 1 -> m = new CreateTrainMenu(subwayAdministrator);
-                case 2 -> m = new AddPcarMenu(subwayAdministrator);
-                case 3 -> {
+                case 1 :
+                    m = new CreateTrainMenu(subwayAdministrator);
+                    break;
+                case 2 :
+                    m = new AddPcarMenu(subwayAdministrator);
+                    break;
+                case 3 :
                     System.out.println("Trenes:");
                     for (Train train : subwayAdministrator.getTrainList()) {
                         System.out.println(train.toString());
                     }
                     return;
-                }
             }
 
             if (m != null) {
@@ -785,7 +794,7 @@ public class Menu {
             do {
                 System.out.println("¿Qué desea hacer?");
                 System.out.println("1) Crear conductor");
-                System.out.println("2) Mostrar conductores");
+                System.out.println("2) Mostrar conductores y volver");
                 String line = input.nextLine();
 
                 try {
@@ -804,14 +813,15 @@ public class Menu {
 
             ActionMenu m = null;
             switch (option) {
-                case 1 -> m = new CreateDriverMenu(subwayAdministrator);
-                case 2 -> {
+                case 1 :
+                    m = new CreateDriverMenu(subwayAdministrator);
+                    break;
+                case 2 :
                     System.out.println("Conductores:");
                     for (Driver driver : subwayAdministrator.getDriverList()) {
                         System.out.println(driver.toString());
                     }
                     return;
-                }
             }
 
             if (m != null) {
@@ -887,7 +897,7 @@ public class Menu {
             do {
                 System.out.println("¿Qué desea hacer?");
                 System.out.println("1) Crear seccion");
-                System.out.println("2) Mostrar secciones");
+                System.out.println("2) Mostrar secciones y volver");
                 String line = input.nextLine();
 
                 try {
@@ -906,14 +916,16 @@ public class Menu {
 
             ActionMenu m = null;
             switch (option) {
-                case 1 -> m = new CreateSectionMenu(subwayAdministrator);
-                case 2 -> {
-                    System.out.println("Conductores:");
+                case 1 :
+                    m = new CreateSectionMenu(subwayAdministrator);
+                    break;
+                case 2 :
+                    System.out.println("Secciones:");
                     for (Section section : subwayAdministrator.getSectionList()) {
                         System.out.println(section.toString());
                     }
                     return;
-                }
+
             }
 
             if (m != null) {

@@ -1,0 +1,6 @@
+1,100,L2carro,maker,TR
+2,100,L2carro,maker,CT
+3,50,L2carro,maker,CT
+4,140,L2carro,maker,CT
+5,200,L2carro,maker,CT
+6,200,L2carro,maker,CT

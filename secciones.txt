@@ -1,0 +1,6 @@
+hospital el pino, lo martinez, 12, 123
+lo martinez, observatorio, 12, 135
+observatorio, el bosque, 12, 2
+el bosque, la cisterna, 12, 13
+la cisterna, el parron, 12, 2
+el parron, lo ovalle, 12, 2
